@@ -4,7 +4,7 @@
 
 `https://drive.google.com/file/d/1eQZ6BjI-DcHbaJTAGyuGwQeNdkMC5dZ6/view?usp=share_link`
 or
-![Video Demo](https://drive.google.com/file/d/1eQZ6BjI-DcHbaJTAGyuGwQeNdkMC5dZ6/view?usp=share_link)
+[Video Demo](https://drive.google.com/file/d/1eQZ6BjI-DcHbaJTAGyuGwQeNdkMC5dZ6/view?usp=share_link)
 
 ## Preview Image
 
