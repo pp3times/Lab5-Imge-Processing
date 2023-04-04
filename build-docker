@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+        stages {
+            stage('Initialize Stage') {
+                steps {
+                    echo 'Initial : Delete containers and images'
+                     dir('Lab5-Imge-Processing') {
+                        echo "Current path is  ${pwd()}"
+                        sh 'docker-compose down --rmi all --volumes || true'
+                     }
+                }
+            }
+
+            stage('Build Stage'){
+                steps {
+                    dir('Lab5-Imge-Processing') {
+                        sh "ls"
+                        echo "Current path is ${pwd()}"
+                        sh "docker-compose build"
+                   
+                    }
+                }
+            }
+            stage('Push Stage'){
+                steps {
+                    dir('Lab5-Imge-Processing') {
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                        }
+                        sh 'docker push pp3times/backend:v1'
+                        sh 'docker push pp3times/frontend:v1'
+                    }
+                }
+            }
+
+            stage('Trigger to puller job'){
+                steps {
+                    build job: 'docker-and-the-pull-pipeline'
+                }
+            }
+        }
+}

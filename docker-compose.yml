@@ -2,15 +2,15 @@ version: '3'
 
 services:
   backend:
-    build: .
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    # image: trdamp/backend-site:v1
+
+  frontend:
     ports:
-      - '8000:8000'
-    volumes:
-      - .:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-  # client:
-  #   build: ./client
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - ./client:/app
+      - '3000:3000'
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    # image: trdamp/html-static-site:v1
