@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+        environment {
+            DOCKER_CONTAINER_NAME_FRONTEND = "frontend"
+            DOCKER_CONTAINER_NAME_BACKEND = "backend"
+            DOCKER_IMAGE_NAME_FRONTEND     = "pp3times/frontend:v1"
+            DOCKER_IMAGE_NAME_BACKEND     = "pp3times/backend:v1"
+        }
+
+        stages {
+            stage('Initialize Stage') {
+                steps {
+                    echo 'Initial : Delete containers and images'
+                    sh 'docker stop ${DOCKER_CONTAINER_NAME_FRONTEND} || true'
+                    sh 'docker stop ${DOCKER_CONTAINER_NAME_BACKEND} || true'
+                    sh 'docker rm ${DOCKER_CONTAINER_NAME_FRONTEND} || true'
+                    sh 'docker rm ${DOCKER_CONTAINER_NAME_BACKEND} || true'
+                    sh 'docker rmi ${DOCKER_IMAGE_NAME_FRONTEND} || true'
+                    sh 'docker rmi ${DOCKER_IMAGE_NAME_BACKEND} || true'
+                }
+            }
+
+            stage('Pull Stage') {
+                steps {
+                    dir('Lab5-Imge-Processing') {
+                        echo "Current path is ${pwd()}"
+                        sh "docker pull ${DOCKER_IMAGE_NAME_BACKEND}"
+                        sh "docker pull ${DOCKER_IMAGE_NAME_FRONTEND}"
+                    }
+                }
+            }
+
+            stage('Run Stage') {
+                steps {
+                    dir('Lab5-Imge-Processing') {
+                        echo "Current path is ${pwd()}"
+                        sh "docker run -d -p 8088:80 --name ${DOCKER_CONTAINER_NAME_BACKEND}  ${DOCKER_IMAGE_NAME_BACKEND}"
+                        sh "docker run -d -p 8090:80 --name ${DOCKER_CONTAINER_NAME_FRONTEND} ${DOCKER_IMAGE_NAME_FRONTEND}"
+                    }
+                }
+            }
+
+        }
+}

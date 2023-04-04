@@ -5,7 +5,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    # image: trdamp/backend-site:v1
+    image: pp3times/backend:v1
 
   frontend:
     ports:
@@ -13,4 +13,4 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    # image: trdamp/html-static-site:v1
+    image: pp3times/frontend:v1
