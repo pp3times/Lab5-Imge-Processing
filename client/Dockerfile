@@ -1,17 +1,20 @@
-FROM node:18-alpine
+# FROM node:18-alpine
 
-WORKDIR /app
+# WORKDIR /app
 
-RUN npm i -g pnpm
+# RUN npm i -g pnpm
 
-COPY package.json pnpm-lock.yaml ./
+# COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install
+# RUN pnpm install
 
-COPY . .
+# COPY . .
 
-RUN pnpm install
+# RUN pnpm install
 
-EXPOSE 3000
+# EXPOSE 3000
 
-CMD ["pnpm", "dev"]
+# CMD ["pnpm", "dev"]
+
+FROM nginx:latest
+COPY . /usr/share/nginx/app/
